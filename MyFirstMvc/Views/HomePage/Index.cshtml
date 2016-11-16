@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.3org/TR/xhtml1-transitional.dtd">
+@model System.Data.DataTable
+@{
+    //Layout = "~/Views/_Layout.cshtml";
+}
+@{
+    ViewBag.Title = "Index";
+}
+<html>
+  <head>
+    <title>DarkSoulsIII</title>
+    <link rel="Shortcut Icon" href="/Images/favicon.ico" />
+    <link rel="Stylesheet" href="../../Scripts/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="../../Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="../../Scripts/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="Stylesheet" type="text/css" href="../../Content/HomePageIndex.css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //页面跳转
+            $("#register").click(function () {
+                location.href = "/HomePage/Register";
+                return false;
+            });
+            $("#login").click(function () {
+                location.href = "/HomePage/LogIn";
+                return false;
+            });
+
+            //显示或隐藏部分内容
+            var $userinfo = $("ul#userinfo li:gt(4)");
+            $userinfo.hide();
+            $("#show").toggle(function () {
+                $userinfo.show(600);
+                $("#show").find("span").text("隐藏部分用户");
+            },
+                    function () {
+                        $userinfo.hide(600);
+                        $("#show").find("span").text("显示全部用户");
+                    });
+
+            $("a").hover(function () {
+                $(this).css("color", "red");
+            }, function () {
+                $(this).css("color", "#333333");
+            });
+            //动态修改样式
+            $("input#cc").click(function () { $("ul#userinfo li").attr("class", "another") });
+            $("input#ac").click(function () { $("ul#userinfo li").addClass("another") });
+            $("input#tc").click(function () { $("ul#userinfo li").toggleClass("another") });
+            //$("ul#userinfo li").wrapAll("<strong></strong>");
+
+            //自定义超链接提示
+            $("a.tooltip").mouseover(function (e) {
+                this.Mytitle = this.title;
+                this.title = "";
+                var ele = $("<div id='elem'>" + this.Mytitle + "</div>");
+                $("body").append(ele);
+                $("#elem").show("fast");
+            }).mouseout(function () {
+                this.title = this.Mytitle;
+                $("#elem").remove().hide();
+            }).mousemove(function (e) {
+                $("#elem").css({
+                    "top": e.pageY + 10,
+                    "left": e.pageX + 20
+                });
+            });
+
+            //判断鼠标在页面中的左右移动并附加相应动画1
+            $("#defaultshow").hover(function () {
+                $("#defaultshow img").stop().animate({ left: "+=10px" }, "1000");
+
+            }, function () {
+                $("#defaultshow img").stop().animate({ left: "-=10px" }, "1000");
+
+            });
+            //动画2
+            /*var lastX = 296; 
+            $("#defaultshow").mousemove(function (e) {
+            if (e.pageX > lastX) {
+            $(this).animate({ left: '256px' }, "fast");
+            } else if (e.pageX < lastX) {
+            $(this).animate({ left: '336px' }, "fast");
+            }
+            lastX = e.pageX;
+            });*/
+
+            //二级目录显示
+            $(".mlname").toggle(function () {
+                $(this).next().show(500);
+            }, function () {
+                $(this).next().hide(500);
+            });
+            $(".menulist").mousemove(function (e) {
+                $("#top").attr("value", e.setoffY);
+                $("#left").attr("value", e.setoffX);
+            });
+            //二级目录内容略缩图动态显示
+            $(".menulist1>span").hover(function (e) {
+                $(this).css("color", "red");
+                this.Mytitle = this.title;
+                this.title = "";
+                $("#menulistimg").show().attr("src", this.Mytitle);
+            }, function (e) {
+                $(this).css("color", "white");
+                this.title = this.Mytitle;
+                $("#menulistimg").hide().attr("src", "");
+            });
+            //略缩图跟随鼠标，使用鼠标相对div的位置赋值，offsetX、pageX、screenX和clientX区别。
+            $(".menulist1>span").mousemove(function (e) {
+                $("#menulistimg").css({
+                    "top": e.clientY - 70,
+                    "left": e.clientX + 10
+                });
+            });
+
+            $("#logo").click(function () {
+                $("#infoshow").empty();
+                $("#defaultshow").show();
+            });
+            //ajax加载网页
+            $(".menulist1>span").click(function () {
+                //location.href = "/DarkSoulsMap/"+this.id;
+                $("#infoshow").empty();
+                $.ajax({
+                    url: "/DarkSoulsMap/" + this.id,
+                    type: "GET",
+                    dataType: "text",
+                    success: function (data) {
+                        $("#defaultshow").hide();
+                        $("#infoshow").append(data);
+                        $("#infoshow").show();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Request.Status:\t" + XMLHttpRequest.Status + "\ntextStatus:\t" + textStatus + "\nerrorThrown:\t" + errorThrown + "\n");
+                    }
+                });
+            });
+
+        });     
+    </script>
+  </head>
+  <body>
+    <div class="maindiv">
+        <div class="menu">
+            <div id="logo">
+            </div>
+            <div class="menulist">
+                <ul id="list">
+                    <li class="listdetail" id="mll1"><span class="mlname" id="mapinfo">地图信息</span>
+                        <div class="menulist1" id="map">
+                            <span id="Map1" title="../../Images/map/map1.jpg">灰烬墓地</span><br />
+                            <span id="Map2" title="../../Images/map/map2.jpg">传火祭祀场</span><br />
+                            <span id="Map3" title="../../Images/map/map3_1.jpg">洛斯里克的高墙</span><br />
+                            <span id="Map4" title="../../Images/map/map4.jpg">不死街</span><br />
+                        </div>
+                    </li>
+                    <li class="listdetail" id="mll2"><span class="mlname" id="bossinfo">领主信息</span>
+                        <div class="menulist1" id="boss">
+                            <span id="Boss1" title="../../Images/boss/boss1.jpg">灰烬审判者古达</span><br />
+                            <span id="Boss2" title="../../Images/boss/boss2.jpg">冷冽谷的波尔多</span><br />
+                            <span id="Boss3" title="../../Images/boss/boss3.jpg">冷冽谷的舞娘</span><br />
+                        </div>
+                    </li>
+                    <li class="listdetail" id="mll3"><span class="mlname" id="weaponinfo">武器信息</span>
+                        <div class="menulist1" id="weapon">
+                            <span id="Weapon1" title="">直剑</span>
+                            <span id="Weapon2" title="">巨剑</span>
+                            <span id="Weapon3" title="">特大剑</span>
+                        </div>
+                    </li>
+                    <li class="listdetail" id="mll4"><span class="mlname">防具信息</span>
+                        <div class="menulist1" id="fangju">
+                            <span id="fangju1" title="">布甲</span>
+                            <span id="fangju2" title="">皮甲</span>
+                            <span id="fangju3" title="">重甲</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <img id="menulistimg" src="" alt="" />
+        </div>
+        <div class="mainshow">
+            <div id="defaultshow">
+                <img src="/Images/bg_home_character.png" alt="bg" style="position: relative;" />
+            </div>
+            <div id="infoshow">
+            </div>
+        </div>
+        <div class="adshow">
+            <ul class="fr">
+                <li class="fore1">
+                @{
+                    if(!ViewBag.i){
+                        <a href="" class="top" id="login">登录</a>
+                    }
+                    else{
+                        <a href="" id="userintroduce">欢迎:@Request.Cookies["account"].Value</a>
+                        <a href="/HomePage/LogOut" id="logout">注销</a>
+                    }
+                 }
+                <a href="" class="top"id="register">注册</a>
+                </li>
+            </ul>
+            <div class="regus">
+                <a href="" class="csschange" id="cc"  >修改Class</a>
+                <a href="" class="csschange" id="ac"  >增加Class</a>
+                <a href="" class="csschange" id="tc"  >切换Class</a>
+                <p class="high" style="position:relative;left:20%;">
+                    已注册用户信息:</p>
+                <ul id="userinfo">
+                    @foreach (System.Data.DataRow item in Model.Rows)
+                    {
+                        <li class="high">姓名：@item["UserName"] ID：@item["UserId"]
+                        </li>
+                    }
+                </ul>
+                <a href="" title="超链接提示" id="show" class="tooltip"><span>显示全部用户</span></a><br />
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

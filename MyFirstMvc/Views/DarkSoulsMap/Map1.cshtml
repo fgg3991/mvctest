@@ -1,0 +1,83 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Map1";
+}
+<html>
+    <head>
+        <title>灰烬墓地</title>
+        <link rel="Shortcut Icon" href="/Images/favicon.ico" />
+        <script type="text/javascript" src="../../Scripts/jquery-1.7.1.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+            
+                $("#wind").click(function () {
+                    //var name = prompt("MDZZ", "");
+                    //alert("ZZZZZZZZ");
+                    location.href = "/HomePage/UpLoad";
+                });
+            });
+        </script>
+        <style type="text/css"> 
+            *{ margin:0;}
+            .mapdiv
+            {
+                }
+            .mapimg
+            {
+                float:left;
+                }
+            .maphistory
+            {
+                float:right;
+                width:200px;
+                }
+            .mapdesc
+            {
+                position:absolute;
+                top:445px;
+                }
+                
+        </style>
+    </head>
+    <body>
+    <div class="mapdiv">
+        <div>
+            <div class="mapimg">
+            <img class="img-responsive" src="/Images/map/map1.jpg" alt="" style="width:600px;height:436px;"/>
+            </div>
+            <div class="maphistory">
+            <p>地图介绍：灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍灰烬墓地详细介绍</p>
+                <input type="button" value="添加敌人信息" id="wind" />
+            </div>
+        </div>
+        <div class="mapdesc">
+        <table id="enemytable" border="1" cellpadding="12">
+        <caption>敌人图鉴</caption>
+          <thead>
+            <tr>
+                <th>敌人图片</th>
+                <th>敌人姓名</th>
+                <th>敌人血量</th>
+                <th>携带灵魂</th>
+                <th>掉落物品</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (System.Data.DataRow item in Model.Rows)
+            {
+                string urlstr = (string)item["enemyPic"];
+                string picsrc = "/Images/enemy/" + urlstr;
+                <tr>
+                    <td> <img src="@picsrc" alt="" style="width:80px;height:85px;"/> </td>
+                    <td> @item["enemyName"]  </td>
+                    <td> @item["enemyBlood"] </td>
+                    <td> @item["enemySouls"] </td>
+                    <td> @item["enemyItem"]</td>
+                </tr>
+            }
+          </tbody>
+        </table>
+        </div>
+    </div>
+    </body>
+</html>

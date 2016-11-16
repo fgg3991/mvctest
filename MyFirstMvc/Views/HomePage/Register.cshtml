@@ -1,0 +1,59 @@
+﻿@model MyFirstMvc.Models.RegisterModel
+@{
+    //Layout = "~/Views/_Layout.cshtml";
+    }
+@{
+    ViewBag.Title = "Register";
+}
+<html>
+    <head>
+    <script type="text/javascript" src="../../Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#RegSubmit").click(function () {
+                var up = $("#userPassword").val();
+                var up1 = $("#userPassword1").val();
+                var ui = $("#userId").val();
+                var un = $("userName").val();
+                if (up == "" || up1 == "" | ui == "" | un == "") {
+                    $("div#msg").html("<p>请输入完整内容后提交.</p>");
+                    return false;
+                }
+                if (up != up1) {
+                    $("div#msg").html("<p>两次输入的密码不同,请重新输入.</p>");
+                    return false;
+                }
+            });
+        });
+    </script>
+    <title>Register</title>
+    <link rel="Shortcut Icon" href="/Images/favicon.ico" />
+    <style type="text/css">
+        body{}
+        h2{ position:absolute; left:40%;}
+        #register{position:absolute; border:black solid thin; left:36%; top:10%;}
+    </style>
+    </head>
+    <body>
+    <h2>Regist</h2>
+    <a href="http://localhost:7146/">首页</a>
+        <div id="register">
+            @using (Html.BeginForm("Register", "HomePage", FormMethod.Post))  
+                {  
+                    @Html.Label("用户姓名："); <br />
+                    @Html.TextBox("userName");<br />
+                    @Html.Label("用户帐号：") <br />
+                    @Html.TextBox("userId");
+                    @Html.ValidationMessage("userId")<br />  
+                    @Html.Label("输入密码："); <br />
+                    @Html.Password("userPassword");<br />
+                    @Html.Label("再次输入密码：");<br />
+                    @Html.Password("userPassword1");
+                    @Html.ValidationMessage("userPassword") <br />
+                    <input id="RegSubmit" type="submit" value="提交" />  
+                } 
+                <div id="msg" style="color:Red"></div> 
+        </div>
+    </body>
+</html>

@@ -1,0 +1,108 @@
+﻿@model MyFirstMvc.Models.RegisterModel
+@{
+    //Layout = "~/Views/_Layout.cshtml";
+    }
+@{
+    ViewBag.Title = "LogIn";
+}
+<html>
+    <head>
+        <link rel="Stylesheet" href="../../Scripts/bootstrap/css/bootstrap.min.css"/>
+        <script type="text/javascript" src="../../Scripts/jquery-3.1.1.js"></script>
+        <script type="text/javascript" src="../../Scripts/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#userId").focus(function () {
+                    if ($(this).val() == "请输入帐号")
+                        $(this).val("");
+                });
+                $("#userId").blur(function () {
+                    if ($(this).val() == "")
+                        $(this).val("请输入帐号");
+                });
+                $("#userPassword").focus(function () {
+                    if ($(this).val() == "请输入密码") {
+                        $(this).val("");
+                        //$(this).attr("type", "password");
+                    }
+                });
+                $("#userPassword").blur(function () {
+                    if ($(this).val() == "") {
+                        // $(this).attr("type", "text");
+                        $(this).val("请输入密码");
+                    }
+                });
+                var offset = $("div#submit").offset();
+            });
+        </script>
+        <title>LogIn</title>
+        <link rel="Shortcut Icon" href="/Images/favicon.ico" />
+        <style type="text/css">
+            h2
+            {
+                position:absolute;
+                left:44%
+                }
+            #submit
+            {
+                position:absolute;
+                left:40%;
+                top:15%;
+                border:black solid thin;
+                }
+        </style>
+    </head>
+    <body>
+        <h2>LogIn</h2>
+        <a href="http://localhost:7146/">首页</a>
+        <div id="submit" style="display:none;">
+        @using (Html.BeginForm("LogIn", "HomePage", FormMethod.Post))
+        {
+            @Html.Label("用户ID")<br />
+            @Html.TextBox("userId","请输入帐号")
+            @Html.ValidationMessage("userId") <br />
+            @Html.Label("用户密码")<br />
+            //<input type="password" name="userPassword" value = "请输入密码"/>
+            @Html.Password("userPassword", "请输入密码")
+            @Html.ValidationMessage("userPassword") <br />
+            <input id="login" type ="submit" value="LogIn" />
+        }
+        </div>
+        <div style="padding:100px 100px 10px;">
+            <form class="form-horizontal" role="form" action="LogIn" method="post" enctype="application/x-www-form-urlencoded">
+              <div class="form-group">
+                <label class="col-sm-5 control-label" for="name">名称</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="name" name="userId" placeholder="请输入名称" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-5 control-label" for="password">密码</label>
+                <div class="col-sm-2">
+                  <input type="password" class="form-control" id="password" name="userPassword" placeholder="请输入密码" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-5 control-label">电话</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" placeholder="请输入电话号码" disabled />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-2">
+                  <div class="form-group checkbox">
+                    <label>
+                      <input type="checkbox" />记住我
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-2">
+                  <button type="submit" class="btn btn-default col-sm-10">登录</button>
+                </div>
+              </div>
+            </form>
+          </div>
+    </body>
+</html>
